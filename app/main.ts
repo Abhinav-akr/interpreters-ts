@@ -29,6 +29,7 @@ if (fileContent.length !== 0) {
   // scanAndLogParantheses(tokens);
   // scan and log out braces
   //scanAndLogBraces(tokens);
+  let found_invalid_token = false;
   const tokenizedArr: string[] = tokens.map((token , index) => {
     if (token === "{") return "LEFT_BRACE { null";
     else if (token === "(") return "LEFT_PAREN ( null";
@@ -41,7 +42,10 @@ if (fileContent.length !== 0) {
     else if (token === "/") return "SLASH / null";
     else if (token === ";") return "SEMICOLON ; null";
     else if (token === ".") return "DOT . null";
-    else return `UNKNOWN-${index}`
+    else {
+      found_invalid_token = true;
+      return `UNKNOWN-${index}`
+    }
   });
   tokenizedArr.push("EOF  null");
 
@@ -49,13 +53,14 @@ if (fileContent.length !== 0) {
     if (token.startsWith("UNKNOWN")) {
         const index = token.split("-")[1] as unknown as number;
         console.error(`[line 1] Error: Unexpected character: ${tokens[index]}`);
-        process.exit(65);
     }
     else {
       console.log(token);
     }
   }
-
+  if (found_invalid_token)
+    process.exit(65);
+  process.exit(0);
 } else {
   console.log("EOF  null");
 }
