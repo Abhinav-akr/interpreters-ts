@@ -47,8 +47,8 @@ if (fileContent.length !== 0) {
 
   for (const token of tokenizedArr) {
     if (token.startsWith("UNKNOWN")) {
-        const index = token.split("-")[1];
-        console.error(`[line 1] Error: Unexpected character: ${index}`);
+        const index = token.split("-")[1] as unknown as number;
+        console.error(`[line 1] Error: Unexpected character: ${tokens[index]}`);
         process.exit(65);
     }
     else {
