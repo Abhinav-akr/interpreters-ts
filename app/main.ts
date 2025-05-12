@@ -29,7 +29,7 @@ if (fileContent.length !== 0) {
     else if (token === ")") return "RIGHT_PAREN ) null";
     else return token; // Return the token itself for any other character
   });
-  tokenizedArr.push("EOF null");
+  tokenizedArr.push("EOF  null");
 
   for (const token of tokenizedArr) {
     console.log(token);
