@@ -23,7 +23,17 @@ const filename: string = args[1];
 const fileContent: string = fs.readFileSync(filename, "utf8");
 
 if (fileContent.length !== 0) {
-  throw new Error("Scanner not implemented");
+  const tokens: string[] = fileContent.split("");
+  const tokenizedArr: string[] = tokens.map((token) => {
+    if (token === "(") return "LEFT_PAREN ( null";
+    else if (token === ")") return "RIGHT_PAREN ) null";
+    else return token; // Return the token itself for any other character
+  });
+  tokenizedArr.push("EOF null");
+
+  for (const token of tokenizedArr) {
+    console.log(token);
+  }
 } else {
   console.log("EOF  null");
 }
