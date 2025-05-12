@@ -34,6 +34,10 @@ if (fileContent.length !== 0) {
     else if (token === "(") return "LEFT_PAREN ( null";
     else if (token === "}") return "RIGHT_BRACE } null";
     else if (token === ")") return "RIGHT_PAREN ) null";
+    else if (token === ",") return "COMMA , null";
+    else if (token === "+") return "PLUS + null";
+    else if (token === "*") return "STAR * null";
+    else if (token === ".") return "DOT . null";
     else return "UNKNOWN"
   });
   tokenizedArr.push("EOF  null");
