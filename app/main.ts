@@ -37,6 +37,9 @@ if (fileContent.length !== 0) {
     else if (token === ",") return "COMMA , null";
     else if (token === "+") return "PLUS + null";
     else if (token === "*") return "STAR * null";
+    else if (token === "-") return "MINUS - null";
+    else if (token === "/") return "SLASH / null";
+    else if (token === ";") return "SEMICOLON ; null";
     else if (token === ".") return "DOT . null";
     else return "UNKNOWN"
   });
