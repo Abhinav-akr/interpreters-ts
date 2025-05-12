@@ -1,4 +1,5 @@
 import fs from "fs";
+import {scanAndLogBraces, scanAndLogParantheses} from "./tokenizer/token-scanner.ts"
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
@@ -24,16 +25,11 @@ const fileContent: string = fs.readFileSync(filename, "utf8");
 
 if (fileContent.length !== 0) {
   const tokens: string[] = fileContent.split("");
-  const tokenizedArr: string[] = tokens.map((token) => {
-    if (token === "(") return "LEFT_PAREN ( null";
-    else if (token === ")") return "RIGHT_PAREN ) null";
-    else return token; // Return the token itself for any other character
-  });
-  tokenizedArr.push("EOF  null");
+  // scan and log out parantheses
+  // scanAndLogParantheses(tokens);
+  // scan and log out braces
+  scanAndLogBraces(tokens);
 
-  for (const token of tokenizedArr) {
-    console.log(token);
-  }
 } else {
   console.log("EOF  null");
 }
