@@ -1,5 +1,5 @@
 import fs from "fs";
-const { scanAndLogBraces } = require( "./tokenizer/token-scanner.ts");
+import {scanAndLogBraces} from "./tokenizer/token-scanner.ts";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
