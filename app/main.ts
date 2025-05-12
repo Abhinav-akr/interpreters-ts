@@ -49,6 +49,7 @@ if (fileContent.length !== 0) {
     if (token.startsWith("UNKNOWN")) {
         const index = token.split("-")[1];
         console.error(`[line 1] Error: Unexpected character: ${index}`);
+        process.exit(65);
     }
     else {
       console.log(token);
