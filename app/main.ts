@@ -1,5 +1,5 @@
 import fs from "fs";
-import { scanAndLogBraces } from "./tokenizer/token-scanner";
+import scanAndLogBraces from "./tokenizer/token-scanner";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
