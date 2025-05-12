@@ -1,5 +1,5 @@
 import fs from "fs";
-//import {scanAndLogBraces} from "./tokenizer/token-scanner";
+import { scanAndLogBraces } from "./tokenizer/token-scanner";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
@@ -28,7 +28,7 @@ if (fileContent.length !== 0) {
   // scan and log out parantheses
   // scanAndLogParantheses(tokens);
   // scan and log out braces
-  //scanAndLogBraces(tokens);
+  scanAndLogBraces(tokens);
   let found_invalid_token = false;
   const tokenizedArr: string[] = tokens.map((token , index) => {
     if (token === "{") return "LEFT_BRACE { null";
