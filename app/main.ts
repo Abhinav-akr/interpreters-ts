@@ -1,5 +1,5 @@
 import fs from "fs";
-import {scanAndLogBraces} from "./tokenizer/token-scanner.ts";
+import { Lexer } from "./tokenizer/token-scanner.ts";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
@@ -24,43 +24,9 @@ const filename: string = args[1];
 const fileContent: string = fs.readFileSync(filename, "utf8");
 
 if (fileContent.length !== 0) {
-  const tokens: string[] = fileContent.split("");
-  // scan and log out parantheses
-  // scanAndLogParantheses(tokens);
-  // scan and log out braces
-  scanAndLogBraces(tokens);
-  let found_invalid_token = false;
-  const tokenizedArr: string[] = tokens.map((token , index) => {
-    if (token === "{") return "LEFT_BRACE { null";
-    else if (token === "(") return "LEFT_PAREN ( null";
-    else if (token === "}") return "RIGHT_BRACE } null";
-    else if (token === ")") return "RIGHT_PAREN ) null";
-    else if (token === ",") return "COMMA , null";
-    else if (token === "+") return "PLUS + null";
-    else if (token === "*") return "STAR * null";
-    else if (token === "-") return "MINUS - null";
-    else if (token === "/") return "SLASH / null";
-    else if (token === ";") return "SEMICOLON ; null";
-    else if (token === ".") return "DOT . null";
-    else {
-      found_invalid_token = true;
-      return `UNKNOWN-${index}`
-    }
-  });
-  tokenizedArr.push("EOF  null");
-
-  for (const token of tokenizedArr) {
-    if (token.startsWith("UNKNOWN")) {
-        const index = token.split("-")[1] as unknown as number;
-        console.error(`[line 1] Error: Unexpected character: ${tokens[index]}`);
-    }
-    else {
-      console.log(token);
-    }
-  }
-  if (found_invalid_token)
-    process.exit(65);
-  process.exit(0);
+  // call lexer service to scan and log the tokens
+  const lexer = new Lexer(fileContent);
+  lexer.scanAndLogTokens();
 } else {
   console.log("EOF  null");
 }
