@@ -86,7 +86,14 @@ export class Scanner {
                 break;
             }
             case '/': {
-                this.addToken("SLASH");
+                // Check for comments
+                if( this.isMatch('/')) {
+                    while(!this.isAtEnd() && this.source_str.charAt(this.current) !== '\n') {
+                        this.current++;
+                    }
+                } else {
+                    this.addToken("SLASH");
+                }
                 break;
             }
             case ';': {
