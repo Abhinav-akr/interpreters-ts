@@ -101,6 +101,10 @@ export class Scanner {
                 this.addToken(this.isMatch('=') ? "EQUAL_EQUAL" : "EQUAL");
                 break;
             }
+            case '!': {
+                this.addToken(this.isMatch('=') ? "BANG_EQUAL" : "BANG");
+                break;
+            }
             default: {
                 this.logError();
             }
