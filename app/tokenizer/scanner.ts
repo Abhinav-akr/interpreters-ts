@@ -1,0 +1,107 @@
+import {Token, type TokenType} from "../types/token.ts";
+
+export class Scanner {
+
+    private readonly source_str: string;
+    private ArrayOfTokens: Token[] = [];
+
+    private startIndex = 0;
+    private current = 0;
+    private lineNumber = 1;
+
+    public hasError = false;
+
+    constructor(source_str: string) {
+        this.source_str = source_str;
+    }
+
+    public scanToGenerateTokens = (): Token[] => {
+        while(!this.isAtEnd()) {
+            // We are at the start of the next lexeme.
+            this.startIndex = this.current;
+            this.scanToken()
+        }
+        this.ArrayOfTokens.push(new Token("EOF", "", {}, this.lineNumber));
+        return this.ArrayOfTokens;
+    }
+
+    private isAtEnd = (): boolean => {
+        return this.current >= this.source_str.length;
+    }
+
+    private addToken = (type: TokenType): void => {
+        const lexeme = this.source_str.substring(this.startIndex, this.current);
+        const token = new Token(type, lexeme, {}, this.lineNumber);
+        this.ArrayOfTokens.push(token);
+    }
+
+    private logError(): void {
+        this.hasError = true;
+        const lexeme = this.source_str.substring(this.startIndex, this.current);
+        console.error(`[line ${this.lineNumber}] Error: Unexpected character: ${lexeme}`);
+    }
+
+    private scanToken = (): void => {
+        const char = this.source_str.charAt(this.current++);
+        switch (char) {
+            case '{': {
+                this.addToken("LEFT_BRACE");
+                break;
+            }
+            case '}': {
+                this.addToken("RIGHT_BRACE");
+                break;
+            }
+            case '(': {
+                this.addToken("LEFT_PAREN");
+                break;
+            }
+            case ')': {
+                this.addToken("RIGHT_PAREN");
+                break;
+            }
+            case ',': {
+                this.addToken("COMMA");
+                break;
+            }
+            case '+': {
+                this.addToken("PLUS");
+                break;
+            }
+            case '*': {
+                this.addToken("STAR");
+                break;
+            }
+            case '-': {
+                this.current++;
+                this.addToken("MINUS");
+                break;
+            }
+            case '/': {
+                this.current++;
+                this.addToken("SLASH");
+                break;
+            }
+            case ';': {
+                this.current++;
+                this.addToken("SEMICOLON");
+                break;
+            }
+            case '.': {
+                this.current++;
+                this.addToken("DOT");
+                break;
+            }
+            default: {
+                this.logError();
+            }
+        }
+    }
+
+
+
+
+
+
+
+}

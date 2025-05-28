@@ -1,5 +1,6 @@
 import fs from "fs";
 import { Lexer } from "./tokenizer/token-scanner.ts";
+import {Scanner} from "./tokenizer/scanner.ts";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
@@ -24,9 +25,13 @@ const filename: string = args[1];
 const fileContent: string = fs.readFileSync(filename, "utf8");
 
 if (fileContent.length !== 0) {
-  // call lexer service to scan and log the tokens
-  const lexer = new Lexer(fileContent);
-  lexer.scanAndLogTokens();
+  const scanner = new Scanner(fileContent);
+  scanner.scanToGenerateTokens().forEach(token => {
+    console.log(token.toString());
+  });
+  if (scanner.hasError) {
+    process.exit(65); // Exit with code 65 if there was an error
+  }
 } else {
   console.log("EOF  null");
 }

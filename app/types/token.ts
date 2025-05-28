@@ -1,21 +1,39 @@
-import type {TokenType} from "./tokenType.ts";
+
+const TokenTypeEnum = {
+    LEFT_PAREN: "LEFT_PAREN",
+    RIGHT_PAREN: "RIGHT_PAREN",
+    LEFT_BRACE: "LEFT_BRACE",
+    RIGHT_BRACE: "RIGHT_BRACE",
+    COMMA: "COMMA",
+    DOT: "DOT",
+    MINUS: "MINUS",
+    PLUS: "PLUS",
+    SEMICOLON: "SEMICOLON",
+    SLASH: "SLASH",
+    STAR: "STAR",
+    EOF: "EOF"
+} as const;
+
+export type TokenType = (typeof TokenTypeEnum)[keyof typeof TokenTypeEnum];
 
 export class Token {
     readonly type: TokenType;
     readonly lexeme: string;
-    readonly literal: Object;
-    readonly value: string;
-    constructor(type: TokenType, lexeme: string, literal: Object, value: string) {
+    readonly literal: any;
+    readonly lineNumber: Number;
+
+    constructor(type: TokenType, lexeme: string, literal: Object, lineNumber: Number) {
         this.type = type;
-        this.value = value;
+        this.lineNumber = lineNumber;
         this.lexeme = lexeme;
         this.literal = literal;
     }
 
     toString(): string {
-        return `${this.type} ${this.lexeme} ${this.literal}`;
+        return `${this.type} ${this.lexeme} null`;
     }
 }
+
 /*
 * expression - const result = 45 + capital * 2
 * [const , result, =, 45, +, capital, *, 2]
