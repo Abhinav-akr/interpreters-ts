@@ -35,11 +35,20 @@ export class Scanner {
         this.ArrayOfTokens.push(token);
     }
 
-    private logError(): void {
+    private logError = (): void => {
         this.hasError = true;
         const lexeme = this.source_str.substring(this.startIndex, this.current);
         console.error(`[line ${this.lineNumber}] Error: Unexpected character: ${lexeme}`);
     }
+
+    private isMatch = (expectedChar: string): boolean => {
+        if (this.isAtEnd() || this.source_str.charAt(this.current) !== expectedChar) {
+            return false;
+        }
+        this.current++;
+        return true;
+    }
+
 
     private scanToken = (): void => {
         const char = this.source_str.charAt(this.current++);
@@ -73,23 +82,23 @@ export class Scanner {
                 break;
             }
             case '-': {
-                this.current++;
                 this.addToken("MINUS");
                 break;
             }
             case '/': {
-                this.current++;
                 this.addToken("SLASH");
                 break;
             }
             case ';': {
-                this.current++;
                 this.addToken("SEMICOLON");
                 break;
             }
             case '.': {
-                this.current++;
                 this.addToken("DOT");
+                break;
+            }
+            case '=': {
+                this.addToken(this.isMatch('=') ? "EQUAL_EQUAL" : "EQUAL");
                 break;
             }
             default: {

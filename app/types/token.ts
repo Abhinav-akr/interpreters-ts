@@ -11,6 +11,8 @@ const TokenTypeEnum = {
     SEMICOLON: "SEMICOLON",
     SLASH: "SLASH",
     STAR: "STAR",
+    EQUAL: "EQUAL",
+    EQUAL_EQUAL: "EQUAL_EQUAL",
     EOF: "EOF"
 } as const;
 
