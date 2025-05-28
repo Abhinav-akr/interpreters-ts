@@ -1,4 +1,5 @@
 import {Token, type TokenType} from "../types/token.ts";
+import {LoxErrorType} from "../types/loxErrorType.ts";
 
 export class Scanner {
 
@@ -35,10 +36,10 @@ export class Scanner {
         this.ArrayOfTokens.push(token);
     }
 
-    private logError = (): void => {
-        this.hasError = true;
+    private addTokenWithLiteral = (type: TokenType, literal: any): void => {
         const lexeme = this.source_str.substring(this.startIndex, this.current);
-        console.error(`[line ${this.lineNumber}] Error: Unexpected character: ${lexeme}`);
+        const token = new Token(type, lexeme, literal, this.lineNumber);
+        this.ArrayOfTokens.push(token);
     }
 
     private isMatch = (expectedChar: string): boolean => {
@@ -47,6 +48,25 @@ export class Scanner {
         }
         this.current++;
         return true;
+    }
+
+    private checkStringLiteral = (): void => {
+        // current on the first char of string to be consumed
+        while (!this.isAtEnd() && this.source_str.charAt(this.current) !== '"') {
+            if (this.source_str.charAt(this.current) === '\n') {
+                this.lineNumber++;
+            }
+            this.current++;
+        }
+        if (this.isAtEnd()) {
+            const error = new LoxErrorType("Unterminated string.", this.lineNumber);
+            error.logInLoxErrorFormat();
+            return;
+        }
+        // We are at the closing quote
+        this.current++; // Move past the closing quote
+        const lexeme = this.source_str.substring(this.startIndex + 1, this.current - 1); // Exclude the quotes
+        this.addTokenWithLiteral("STRING", lexeme.replace('"', ''));
     }
 
 
@@ -120,10 +140,14 @@ export class Scanner {
                 this.addToken(this.isMatch('=') ? "GREATER_EQUAL" : "GREATER");
                 break;
             }
+            case '"': {
+                // Handle string literals
+                this.checkStringLiteral();
+                break;
+            }
             case ' ':
             case '\r':
             case '\t': {
-                // Ignore whitespace
                 break;
             }
             case '\n': {
@@ -131,7 +155,11 @@ export class Scanner {
                 break;
             }
             default: {
-                this.logError();
+                this.hasError = true;
+                const lexeme = this.source_str.substring(this.startIndex, this.current);
+                const error = new LoxErrorType(`Unexpected character: ${lexeme}`, this.lineNumber);
+                error.logInLoxErrorFormat();
+                break;
             }
         }
     }
