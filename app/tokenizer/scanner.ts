@@ -105,6 +105,14 @@ export class Scanner {
                 this.addToken(this.isMatch('=') ? "BANG_EQUAL" : "BANG");
                 break;
             }
+            case '<': {
+                this.addToken(this.isMatch('=') ? "LESS_EQUAL" : "LESS");
+                break;
+            }
+            case '>': {
+                this.addToken(this.isMatch('=') ? "GREATER_EQUAL" : "GREATER");
+                break;
+            }
             default: {
                 this.logError();
             }

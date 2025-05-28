@@ -15,6 +15,10 @@ const TokenTypeEnum = {
     EQUAL_EQUAL: "EQUAL_EQUAL",
     BANG: "BANG",
     BANG_EQUAL: "BANG_EQUAL",
+    GREATER: "GREATER",
+    GREATER_EQUAL: "GREATER_EQUAL",
+    LESS: "LESS",
+    LESS_EQUAL: "LESS_EQUAL",
     EOF: "EOF"
 } as const;
 
