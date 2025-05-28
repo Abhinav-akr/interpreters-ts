@@ -1,5 +1,4 @@
 import fs from "fs";
-import { Lexer } from "./tokenizer/token-scanner.ts";
 import {Scanner} from "./tokenizer/scanner.ts";
 
 const args: string[] = process.argv.slice(2); // Skip the first two arguments (node path and script path)
