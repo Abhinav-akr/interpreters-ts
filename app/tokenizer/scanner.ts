@@ -120,6 +120,16 @@ export class Scanner {
                 this.addToken(this.isMatch('=') ? "GREATER_EQUAL" : "GREATER");
                 break;
             }
+            case ' ':
+            case '\r':
+            case '\t': {
+                // Ignore whitespace
+                break;
+            }
+            case '\n': {
+                this.lineNumber++;
+                break;
+            }
             default: {
                 this.logError();
             }
