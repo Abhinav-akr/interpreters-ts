@@ -59,6 +59,7 @@ export class Scanner {
             this.current++;
         }
         if (this.isAtEnd()) {
+            this.hasError = true;
             const error = new LoxErrorType("Unterminated string.", this.lineNumber);
             error.logInLoxErrorFormat();
             return;
