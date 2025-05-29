@@ -28,10 +28,10 @@ export type TokenType = (typeof TokenTypeEnum)[keyof typeof TokenTypeEnum];
 export class Token {
     readonly type: TokenType;
     readonly lexeme: string;
-    readonly literal: any;
+    readonly literal: any | null;
     readonly lineNumber: Number;
 
-    constructor(type: TokenType, lexeme: string, literal: Object, lineNumber: Number) {
+    constructor(type: TokenType, lexeme: string, literal: any | null, lineNumber: Number) {
         this.type = type;
         this.lineNumber = lineNumber;
         this.lexeme = lexeme;

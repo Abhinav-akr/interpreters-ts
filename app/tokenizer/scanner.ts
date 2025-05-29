@@ -22,7 +22,7 @@ export class Scanner {
             this.startIndex = this.current;
             this.scanToken()
         }
-        this.ArrayOfTokens.push(new Token("EOF", "", {}, this.lineNumber));
+        this.ArrayOfTokens.push(new Token("EOF", "", null, this.lineNumber));
         return this.ArrayOfTokens;
     }
 
