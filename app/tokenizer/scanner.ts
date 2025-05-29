@@ -65,7 +65,7 @@ export class Scanner {
         }
         // We are at the closing quote
         this.current++; // Move past the closing quote
-        const lexeme = this.source_str.substring(this.startIndex + 1, this.current - 1); // Exclude the quotes
+        const lexeme = this.source_str.substring(this.startIndex, this.current - 1); // Exclude the quotes
         this.addTokenWithLiteral("STRING", lexeme.replace('"', ''));
     }
 
