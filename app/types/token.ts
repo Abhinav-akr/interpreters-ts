@@ -39,7 +39,7 @@ export class Token {
     }
 
     toString(): string {
-        return `${this.type} ${this.lexeme} null`;
+        return `${this.type} ${this.lexeme} ${this.literal}`;
     }
 }
 
