@@ -32,7 +32,7 @@ export class Scanner {
 
     private addToken = (type: TokenType): void => {
         const lexeme = this.source_str.substring(this.startIndex, this.current);
-        const token = new Token(type, lexeme, {}, this.lineNumber);
+        const token = new Token(type, lexeme, null, this.lineNumber);
         this.ArrayOfTokens.push(token);
     }
 
