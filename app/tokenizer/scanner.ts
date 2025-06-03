@@ -41,6 +41,10 @@ export class Scanner {
         literal: any,
         lexeme?: string | number
         ): void => {
+            if(lexeme && typeof lexeme === 'number' && Number.isInteger(lexeme)) {
+                // create a string representation like "123.0"
+                lexeme = lexeme.toString() + ".0"; // Ensure it has a decimal point
+            }
             const token = new Token(type, lexeme || this.source_str.substring(this.startIndex, this.current), literal, this.lineNumber);
             this.ArrayOfTokens.push(token);
         }
@@ -165,13 +169,13 @@ export class Scanner {
             default:
                 if (this.isDigit(char)) {
                     // found a digit - possibility for a number literal
-                    while (this.isDigit(this.source_str.charAt(this.current))) {
+                    while (!this.isAtEnd() && this.isDigit(this.source_str.charAt(this.current))) {
                         this.current++;
                     }
                     // Check for a fractional part
-                    if (this.source_str.charAt(this.current) === '.' && this.isDigit(this.source_str.charAt(this.current + 1))) {
+                    if (!this.isAtEnd() && this.source_str.charAt(this.current) === '.' && this.isDigit(this.source_str.charAt(this.current + 1))) {
                         this.current++; // Consume the '.'
-                        while (this.isDigit(this.source_str.charAt(this.current))) {
+                        while (!this.isAtEnd() && this.isDigit(this.source_str.charAt(this.current))) {
                             this.current++;
                         }
                     }
@@ -184,8 +188,8 @@ export class Scanner {
                     const lexeme = this.source_str.substring(this.startIndex, this.current);
                     const error = new LoxErrorType(`Unexpected character: ${lexeme}`, this.lineNumber);
                     error.logInLoxErrorFormat();
-                    break;
                 }
+                break;
         }
     }
 }
