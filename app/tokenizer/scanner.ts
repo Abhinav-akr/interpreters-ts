@@ -178,7 +178,7 @@ export class Scanner {
                     // Convert the substring to a number
                     const numberStr = this.source_str.substring(this.startIndex, this.current);
                     const numberLiteral = parseFloat(numberStr);
-                    this.addTokenWithLiteral("NUMBER", numberStr, numberLiteral);
+                    this.addTokenWithLiteral("NUMBER", numberLiteral, numberStr);
                 } else {
                     this.hasError = true;
                     const lexeme = this.source_str.substring(this.startIndex, this.current);
