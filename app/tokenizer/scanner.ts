@@ -36,11 +36,14 @@ export class Scanner {
         this.ArrayOfTokens.push(token);
     }
 
-    private addTokenWithLiteral = (type: TokenType, literal: any): void => {
-        const lexeme = this.source_str.substring(this.startIndex, this.current);
-        const token = new Token(type, lexeme, literal, this.lineNumber);
-        this.ArrayOfTokens.push(token);
-    }
+    private addTokenWithLiteral = (
+        type: TokenType,
+        literal: any,
+        lexeme?: string | number
+        ): void => {
+            const token = new Token(type, lexeme || this.source_str.substring(this.startIndex, this.current), literal, this.lineNumber);
+            this.ArrayOfTokens.push(token);
+        }
 
     private isMatch = (expectedChar: string): boolean => {
         if (this.isAtEnd() || this.source_str.charAt(this.current) !== expectedChar) {
@@ -68,6 +71,10 @@ export class Scanner {
         this.current++; // Move past the closing quote
         const lexeme = this.source_str.substring(this.startIndex, this.current - 1); // Exclude the quotes
         this.addTokenWithLiteral("STRING", lexeme.replace('"', ''));
+    }
+
+    private isDigit = (char: string): boolean => {
+        return char >= '0' && char <= '9';
     }
 
 
@@ -155,20 +162,30 @@ export class Scanner {
                 this.lineNumber++;
                 break;
             }
-            default: {
-                this.hasError = true;
-                const lexeme = this.source_str.substring(this.startIndex, this.current);
-                const error = new LoxErrorType(`Unexpected character: ${lexeme}`, this.lineNumber);
-                error.logInLoxErrorFormat();
-                break;
-            }
+            default:
+                if (this.isDigit(char)) {
+                    // found a digit - possibility for a number literal
+                    while (this.isDigit(this.source_str.charAt(this.current))) {
+                        this.current++;
+                    }
+                    // Check for a fractional part
+                    if (this.source_str.charAt(this.current) === '.' && this.isDigit(this.source_str.charAt(this.current + 1))) {
+                        this.current++; // Consume the '.'
+                        while (this.isDigit(this.source_str.charAt(this.current))) {
+                            this.current++;
+                        }
+                    }
+                    // Convert the substring to a number
+                    const numberStr = this.source_str.substring(this.startIndex, this.current);
+                    const numberLiteral = parseFloat(numberStr);
+                    this.addTokenWithLiteral("NUMBER", numberStr, numberLiteral);
+                } else {
+                    this.hasError = true;
+                    const lexeme = this.source_str.substring(this.startIndex, this.current);
+                    const error = new LoxErrorType(`Unexpected character: ${lexeme}`, this.lineNumber);
+                    error.logInLoxErrorFormat();
+                    break;
+                }
         }
     }
-
-
-
-
-
-
-
 }
