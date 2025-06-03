@@ -38,14 +38,14 @@ export class Scanner {
 
     private addTokenWithLiteral = (
         type: TokenType,
-        literal: any,
-        lexeme?: string | number
+        literal: any
         ): void => {
-            if(lexeme && typeof lexeme === 'number' && Number.isInteger(lexeme)) {
-                // create a string representation like "123.0"
-                lexeme = lexeme.toString() + ".0"; // Ensure it has a decimal point
+            const lexeme = this.source_str.substring(this.startIndex, this.current);
+            // handle when literal is a number - specifically an integer - conver to <number>.0 representation
+            if (typeof literal === "number" && Number.isInteger(literal)) {
+                literal = literal.toFixed(1); // Convert to string representation with one decimal place
             }
-            const token = new Token(type, lexeme || this.source_str.substring(this.startIndex, this.current), literal, this.lineNumber);
+            const token = new Token(type, lexeme, literal, this.lineNumber);
             this.ArrayOfTokens.push(token);
         }
 
@@ -182,7 +182,7 @@ export class Scanner {
                     // Convert the substring to a number
                     const numberStr = this.source_str.substring(this.startIndex, this.current);
                     const numberLiteral = parseFloat(numberStr);
-                    this.addTokenWithLiteral("NUMBER", numberLiteral, numberStr);
+                    this.addTokenWithLiteral("NUMBER", numberLiteral);
                 } else {
                     this.hasError = true;
                     const lexeme = this.source_str.substring(this.startIndex, this.current);
