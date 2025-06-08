@@ -21,8 +21,11 @@ const TokenTypeEnum = {
     LESS_EQUAL: "LESS_EQUAL",
     STRING: "STRING",
     NUMBER: "NUMBER",
+    IDENTIFIER: "IDENTIFIER",
     EOF: "EOF"
 } as const;
+
+
 
 export type TokenType = (typeof TokenTypeEnum)[keyof typeof TokenTypeEnum];
 

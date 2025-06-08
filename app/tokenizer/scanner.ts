@@ -81,7 +81,6 @@ export class Scanner {
         return char >= '0' && char <= '9';
     }
 
-
     private scanToken = (): void => {
         const char = this.source_str.charAt(this.current++);
         switch (char) {
@@ -183,7 +182,11 @@ export class Scanner {
                     const numberStr = this.source_str.substring(this.startIndex, this.current);
                     const numberLiteral = parseFloat(numberStr);
                     this.addTokenWithLiteral("NUMBER", numberLiteral);
-                } else {
+                } else if (this.isAlpha(char)) {
+                    // found an identifier
+                    this.checkForIdentifier();
+                }
+                else {
                     this.hasError = true;
                     const lexeme = this.source_str.substring(this.startIndex, this.current);
                     const error = new LoxErrorType(`Unexpected character: ${lexeme}`, this.lineNumber);
@@ -191,5 +194,21 @@ export class Scanner {
                 }
                 break;
         }
+    }
+
+    private isAlphaNumeric = (char: string): boolean => {
+        return this.isAlpha(char) || this.isDigit(char);
+    }
+
+    private checkForIdentifier() {
+        while (!this.isAtEnd() && this.isAlphaNumeric(this.source_str.charAt(this.current))) {
+            this.current++;
+        }
+        const lexeme = this.source_str.substring(this.startIndex, this.current);
+        this.addToken("IDENTIFIER");
+    }
+
+    private isAlpha(char: string) {
+        return (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_';
     }
 }
