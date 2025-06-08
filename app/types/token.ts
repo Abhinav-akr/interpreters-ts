@@ -22,10 +22,43 @@ const TokenTypeEnum = {
     STRING: "STRING",
     NUMBER: "NUMBER",
     IDENTIFIER: "IDENTIFIER",
+    AND: "AND",
+    CLASS: "CLASS",
+    ELSE: "ELSE",
+    FALSE: "FALSE",
+    FUN: "FUN",
+    FOR: "FOR",
+    IF: "IF",
+    NIL: "NIL",
+    OR: "OR",
+    PRINT: "PRINT",
+    RETURN: "RETURN",
+    SUPER: "SUPER",
+    THIS: "THIS",
+    TRUE: "TRUE",
+    VAR: "VAR",
+    WHILE: "WHILE",
     EOF: "EOF"
 } as const;
 
-
+export const keywords: Record<string, TokenType> = {
+    "and": "AND",
+    "class": "CLASS",
+    "else": "ELSE",
+    "false": "FALSE",
+    "fun": "FUN",
+    "for": "FOR",
+    "if": "IF",
+    "nil": "NIL",
+    "or": "OR",
+    "print": "PRINT",
+    "return": "RETURN",
+    "super": "SUPER",
+    "this": "THIS",
+    "true": "TRUE",
+    "var": "VAR",
+    "while": "WHILE"
+};
 
 export type TokenType = (typeof TokenTypeEnum)[keyof typeof TokenTypeEnum];
 

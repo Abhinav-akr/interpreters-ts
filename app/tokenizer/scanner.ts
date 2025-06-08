@@ -1,4 +1,4 @@
-import {Token, type TokenType} from "../types/token.ts";
+import {keywords, Token, type TokenType} from "../types/token.ts";
 import {LoxErrorType} from "../types/loxErrorType.ts";
 
 export class Scanner {
@@ -183,7 +183,7 @@ export class Scanner {
                     const numberLiteral = parseFloat(numberStr);
                     this.addTokenWithLiteral("NUMBER", numberLiteral);
                 } else if (this.isAlpha(char)) {
-                    // found an identifier
+                    // found an identifier or keyword
                     this.checkForIdentifier();
                 }
                 else {
@@ -205,6 +205,12 @@ export class Scanner {
             this.current++;
         }
         const lexeme = this.source_str.substring(this.startIndex, this.current);
+        // Check for keywords
+        const tokenType = keywords[lexeme] || "IDENTIFIER";
+        if (tokenType !== "IDENTIFIER") {
+            this.addToken(tokenType);
+            return;
+        }
         this.addToken("IDENTIFIER");
     }
 
