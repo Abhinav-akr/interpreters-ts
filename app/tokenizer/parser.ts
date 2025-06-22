@@ -1,4 +1,5 @@
-import { Token } from "../types/token";
+import { Token, type TokenType } from "../types/token";
+import { TokenTypeEnum } from "../types/token";
 export class Parser {
   private tokens: Array<Token>;
   private current: number;
@@ -13,7 +14,11 @@ export class Parser {
       // console.log(
       //   `Type: ${token.type}, Lexeme: ${token.lexeme}, Literal: ${token.literal}`,
       // );
-      console.log(token.lexeme)
+      if (token.type === TokenTypeEnum.NUMBER) {
+        console.log(token.literal);
+      } else {
+        console.log(token.lexeme);
+      }
     });
   };
 }
