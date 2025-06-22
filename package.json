@@ -3,7 +3,8 @@
   "description": "Build your own Interpreter challenge, from CodeCrafters",
   "type": "module",
   "scripts": {
-    "dev": "bun run app/main.ts"
+    "dev": "bun run app/main.ts",
+    "scanner": "bun run app/tokenizer/scanner-test-client.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
