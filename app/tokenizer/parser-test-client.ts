@@ -10,4 +10,4 @@ function runParserTest(source: string) {
   p.parse();
 }
 
-runParserTest("19");
+runParserTest(`"hello world"`);

@@ -14,7 +14,10 @@ export class Parser {
       // console.log(
       //   `Type: ${token.type}, Lexeme: ${token.lexeme}, Literal: ${token.literal}`,
       // );
-      if (token.type === TokenTypeEnum.NUMBER) {
+      if (
+        token.type === TokenTypeEnum.NUMBER ||
+        token.type === TokenTypeEnum.STRING
+      ) {
         console.log(token.literal);
       } else {
         console.log(token.lexeme);
